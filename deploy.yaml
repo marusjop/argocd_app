@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  deploy-marek
+spec:
+  selector:
+    matchLabels:
+      app: marek
+      type: front-end
+  replicas: 3
+  revisionHistoryLimit: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: marek
+        type: front-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 500Mi      
+        ports:
+        - containerPort:  80

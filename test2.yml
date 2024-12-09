@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mojaapka-kontener
+  labels:
+    app: mojaapka
+spec:
+  containers:
+  - name: myapp-container
+    image: nginx
+    ports:
+    - containerPort:  80
+      name:  http
+      protocol: TCP
+  initContainers:
+  - name: init-myservice
+    image: nginx
+    ports:
+    - containerPort:  81
+      name:  http
+      protocol: TCP
+    command: ['sh', '-c', "until nslookup init-myservice.namespace.svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
+  - name: init-mydb
+    image: alpine
+    ports:
+    - containerPort:  82
+      name:  http
+      protocol: TCP
+    command: ['sh', '-c', "until nslookup init-mydb.namespace.svc.cluster.local; do echo waiting for mydb; sleep 2; done"]

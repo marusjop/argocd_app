@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cosniecos2
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: deploy-marek-v2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: deploy-marek-v2
+    spec:     
+      containers:
+      - name: nginx-marek
+        image: alpine:3.17
+        command: ["/bin/sh", "-ec", "sleep 1000"]
+      restartPolicy: Always

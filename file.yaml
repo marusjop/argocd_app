@@ -1,0 +1,133 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-11-25T10:31:30Z"
+  labels:
+    app: mojaapka
+    type: front-end
+  name: mojaapka-kontener
+  namespace: manieczek
+  resourceVersion: "121725"
+  uid: 4cfda0cf-63ba-4444-9b68-7315030f2072
+spec:
+  containers:
+  - args:
+    - echo ${DBCON}
+    command:
+    - /bin/sh
+    - -c
+    env:
+    - name: DBCON
+      value: connenctionstring
+    image: nginx
+    imagePullPolicy: Always
+    name: nginx-container
+    ports:
+    - containerPort: 80
+      name: http
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-8z6xf
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-8z6xf
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-25T10:31:32Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-25T10:31:30Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-25T10:31:30Z"
+    message: 'containers with unready status: [nginx-container]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-25T10:31:30Z"
+    message: 'containers with unready status: [nginx-container]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-25T10:31:30Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://502ec74797d5fe0cdd129e7167d8e2fa2c237261555d8425887bd3ab3fa5c467
+    image: nginx:latest
+    imageID: docker-pullable://nginx@sha256:bc5eac5eafc581aeda3008b4b1f07ebba230de2f27d47767129a6a905c84f470
+    lastState:
+      terminated:
+        containerID: docker://502ec74797d5fe0cdd129e7167d8e2fa2c237261555d8425887bd3ab3fa5c467
+        exitCode: 0
+        finishedAt: "2024-11-25T11:33:48Z"
+        reason: Completed
+        startedAt: "2024-11-25T11:33:48Z"
+    name: nginx-container
+    ready: false
+    restartCount: 17
+    started: false
+    state:
+      waiting:
+        message: back-off 5m0s restarting failed container=nginx-container pod=mojaapka-kontener_manieczek(4cfda0cf-63ba-4444-9b68-7315030f2072)
+        reason: CrashLoopBackOff
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-8z6xf
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 192.168.39.152
+  hostIPs:
+  - ip: 192.168.39.152
+  phase: Running
+  podIP: 10.244.0.15
+  podIPs:
+  - ip: 10.244.0.15
+  qosClass: BestEffort
+  startTime: "2024-11-25T10:31:30Z"

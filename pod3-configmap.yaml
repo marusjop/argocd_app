@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "nginx-configmap"
+  labels:
+    app: cos
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    ports:
+    - containerPort: 80
+    env:
+      - name: imie
+        valueFrom:
+          configMapKeyRef:
+            name: marek
+            key: imie
+      # - name: secret
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: mareksecret
+      #       key: username
+      #       key: password
+      # - name: secret_pass
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: mareksecret
+      #       key: password
+    volumeMounts:
+      - name: volmap
+        mountPath: /etc/config
+  volumes:
+  - name: volmap
+    secret:
+      secretName: mareksecret

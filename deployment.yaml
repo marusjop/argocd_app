@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-marek
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: nginx
+      env: prod
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+          app: nginx
+          env: prod
+    spec:     
+      containers:
+      - name: nginx-marek
+        image: alpine:3.19
+        command: ["/bin/sh", "-ec", "sleep 1000"]
+      restartPolicy: Always

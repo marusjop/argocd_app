@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "nginx-marek"
+  labels:
+    app: cos
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - mountPath: "/demo/"
+      name: mojepv
+  volumes:
+  - name: mojepv
+    persistentVolumeClaim:
+      claimName: mypvc

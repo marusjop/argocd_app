@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: deamon-marek
+spec:
+  selector:
+    matchLabels:
+      app: MYAPP
+  template:
+    metadata:
+      labels:
+        app: MYAPP
+    spec:
+      tolerations:
+      # this toleration is to have the daemonset runnable on master nodes
+      # remove it if your masters can't run pods
+      # - key: node-role.kubernetes.io/master
+      #   effect: NoSchedule
+      containers:
+      - name: nginx-container
+        image: nginx
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 500Mi      
+        ports:
+        - containerPort:  80

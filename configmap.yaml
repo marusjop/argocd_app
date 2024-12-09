@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: marek
+data:
+  imie: maniek
+  nazwisko: burczykowski
