@@ -17,10 +17,10 @@ spec:
         memory: 200Mi
     ports:
     - containerPort: 80
-    args:
-    - /bin/sh
-    - -c
-    - touch /tmp/healthy; sleep 16; rm -rf /tmp/healthy; sleep 3600
+    # args:
+    # - /bin/sh
+    # - -c
+    # - touch /tmp/healthy; sleep 16; rm -rf /tmp/healthy; sleep 3600
     readinessProbe:
       tcpSocket:
         port: 80
